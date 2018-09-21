@@ -78,7 +78,7 @@ def main(k, i, o):
     print('\x1b[0;30;42m', "Output File:\t", '\x1b[0m', o)
     # -------------------- Process -------------------- #
     (keyStringHex, plainText) = readParameters(k, i)
-    my_ctr_cipher.setIV('00000060DB5672C97AA8F0B200000001')
+    # my_ctr_cipher.setIV('00000060DB5672C97AA8F0B200000001')
     print('\x1b[5;35;44m', "IV is\t\t\t", '\x1b[0m', my_ctr_cipher.IV.hex())
     plaintext_bytes = plainText.encode('latin-1')
     padded_plaintext_bytes = my_ctr_cipher.pad(plaintext_bytes)
@@ -94,6 +94,9 @@ def main(k, i, o):
     for j in raw_cipher_text_list:
         final_cipher_str += j.decode('latin-1')
     with open(o, 'wb') as outputFile:
+        # - add iv to the encrypted file -
+        outputFile.write(my_ctr_cipher.IV)
+        # - add ciphertext to the encrypted file -
         outputFile.write(final_cipher_str.encode('latin-1'))
     pool.close()
     pool.terminate()

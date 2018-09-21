@@ -24,10 +24,11 @@ def readParameters(k, i):
         cipherTextMatrix = inputPlainTextFile.read()
         # print(cipherTextMatrix[0:16].hex())
         num_of_cipher_groups = int(len(cipherTextMatrix) / 16)  # each group with 16 bytes
-        for i in range(num_of_cipher_groups):
-            cipherArray.append((i, cipherTextMatrix[i * 16:(i * 16 + 16)]))
+        iv = cipherTextMatrix[0:16]
+        for i in range(num_of_cipher_groups-1):
+            cipherArray.append((i, cipherTextMatrix[(i+1) * 16:((i+1) * 16 + 16)]))
         print('\x1b[0;30;42m', "Successfully loaded cipher file (Binary)\t", '\x1b[0m', cipherArray)
-    return (keyStringHex, tuple(cipherArray))
+    return (iv,keyStringHex, tuple(cipherArray))
 
 
 @click.command()
@@ -76,19 +77,17 @@ def main(k, i, o):
     print('\x1b[0;30;42m', "Input File:\t", '\x1b[0m', i)
     print('\x1b[0;30;42m', "Output File:\t", '\x1b[0m', o)
     # -------------------- Read Parameters -------------------- #
-    (keyStringHex, cipherArray) = readParameters(k, i)
+    (iv, keyStringHex, cipherArray) = readParameters(k, i)
     # -------------------- Reset IV from CBCCipher class -------------------- #
-    my_ctr_cipher.setIV('00000060db5672c97aa8f0b200000001')
+    my_ctr_cipher.setIV(iv)
     print('\x1b[5;35;44m', "IV is\t\t\t", '\x1b[0m', my_ctr_cipher.IV.hex())
-    # my_ctr_cipher.decrypt(cipherArray[0]).decode('latin-1')
-    # my_ctr_cipher.decrypt(cipherArray[1]).decode('latin-1')
     pool = multiprocessing.Pool(processes=4)
     pool.map(decryption_process, cipherArray)
     plain_text_list = [None] * len(cipherArray)
     for i in range(len(cipherArray)):
         temp_item = output_queue.get()
         plain_text_list[temp_item[0]] = temp_item[1].decode('latin-1')
-    raw_plain_text = "".join(plain_text_list)
+    raw_plain_text = my_ctr_cipher.unpadded(plain_text_list)
     # -------------------- write to output -------------------- #
     with open(o, 'w') as outputFile:
         outputFile.write(raw_plain_text)
