@@ -89,8 +89,8 @@ def main(k, i, o):
         plain_text_list[temp_item[0]] = temp_item[1].decode('latin-1')
     raw_plain_text = my_ctr_cipher.unpadded(plain_text_list)
     # -------------------- write to output -------------------- #
-    with open(o, 'w') as outputFile:
-        outputFile.write(raw_plain_text)
+    with open(o, 'wb') as outputFile:
+        outputFile.write(raw_plain_text.encode('latin-1'))
     print('\x1b[1;37;44m', "\t\t\tDecryption Finished!\t\t\t")
     # -------------------- END -------------------- #
 

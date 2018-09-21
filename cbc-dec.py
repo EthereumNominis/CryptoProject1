@@ -14,7 +14,7 @@ def readParameters(k, i):
         iv = cipherTextMatrix[0:16]
         for i in range(num_of_cipher_groups-1):
             cipherArray.append(cipherTextMatrix[(i+1) * 16:( (i+1) * 16 + 16)])
-        print('\x1b[0;30;42m', "Successfully loaded cipher file (Binary)\t", '\x1b[0m',cipherArray)
+        print('\x1b[0;30;42m', "Successfully loaded cipher file (Binary)\t", '\x1b[0m')
     return (iv, keyStringHex, tuple(cipherArray))
 
 
