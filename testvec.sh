@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILENAME=testdata.txt
+FILENAME=sherlock_holmes.txt
 FILESIZE=$(stat -f%z "$FILENAME")
 i=$(echo "obase=16; $FILESIZE" | bc)
 printf -v j "%016x" 0x$i
