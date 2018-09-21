@@ -5,12 +5,16 @@ import click
 def readParameters(k, i):
     keyStringHex = str()
     plainText = str()
+    # -------------------- The key file must be hex string in a text file -------------------- #
     with open(k, 'r') as keyFile:
         keyStringHex = keyFile.readline()
         print('\x1b[0;30;42m', "Successfully loaded key (Hex)\t", '\x1b[0m', repr(keyStringHex))
-    with open(i, 'r') as inputPlainTextFile:
+    # -------------------- The input file could be any format file -------------------- #
+    # -------------------- We read input file as binary -------------------- #
+    with open(i, 'rb') as inputPlainTextFile:
         plainText = inputPlainTextFile.read()
-        print('\x1b[0;30;42m', "Successfully loaded plain text file\t", '\x1b[0m', repr(plainText))
+        print('\x1b[0;30;42m', "Successfully loaded plain text file\t", '\x1b[0m')
+        # print(len(plainText))
     # print("\n\n\n",repr(plainText),"\n\n\n")
     return (keyStringHex, plainText)
 
@@ -35,9 +39,9 @@ def main(k, i, o):
     iv = my_cbc_cipher.IV
     print('\x1b[0;30;42m', "IV is\t\t\t", '\x1b[0m', iv.hex())
     # plaintext_bytes = bytes(plainText, 'latin-1')
-    padded_plaintext_bytes = my_cbc_cipher.pad(plainText.encode('latin-1'))
+    padded_plaintext_bytes = my_cbc_cipher.pad(plainText)
     cipher_text_array = my_cbc_cipher.encrypt(padded_plaintext_bytes)
-    print(padded_plaintext_bytes)
+    # print(padded_plaintext_bytes)
     # -------------------- Output Results -------------------- #
     print('\x1b[0;33;45m', "Cipher->\t\t", '\x1b[0m')
     with open(o, 'wb') as outputFile:
@@ -45,11 +49,11 @@ def main(k, i, o):
         outputFile.write(iv)
         # - Add ciphertext to the encrypted file -
         for i in cipher_text_array:
-            print('\x1b[3;31;47m', i.hex(), '\x1b[0m')
-            print('\t\t\t|\t',i.decode('latin-1'))
+            # print('\x1b[3;31;47m', i.hex(), '\x1b[0m')
+            # print('\t\t\t|\t',i.decode('latin-1'))
             outputFile.write(i)
     print('\x1b[1;37;44m', "\t\t\tEncryption Finished!\t\t\t")
-    # -------------------- END -------------------- #
+    # # -------------------- END -------------------- #
 
 
 if __name__ == '__main__':
