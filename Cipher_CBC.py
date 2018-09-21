@@ -62,8 +62,8 @@ class CBCCipher(Cipher):
                 unpadded_str += (decrypt_msg_array[i]).decode('latin-1')
         return unpadded_str
 
-    def setIV(self, ivstring):
-        self.IV = bytes.fromhex(ivstring)
+    def setIV(self, ivBytes):
+        self.IV = ivBytes
 
 
 

@@ -10,12 +10,12 @@ def readParameters(k, i):
         print('\x1b[0;30;42m', "Successfully loaded key (Hex)\t", '\x1b[0m', repr(keyStringHex))
     with open(i, 'rb') as inputPlainTextFile:
         cipherTextMatrix = inputPlainTextFile.read()
-        # print(cipherTextMatrix[0:16].hex())
         num_of_cipher_groups = int(len(cipherTextMatrix) / 16)  # each group with 16 bytes
-        for i in range(num_of_cipher_groups):
-            cipherArray.append(cipherTextMatrix[i * 16:(i * 16 + 16)])
+        iv = cipherTextMatrix[0:16]
+        for i in range(num_of_cipher_groups-1):
+            cipherArray.append(cipherTextMatrix[(i+1) * 16:( (i+1) * 16 + 16)])
         print('\x1b[0;30;42m', "Successfully loaded cipher file (Binary)\t", '\x1b[0m', cipherArray)
-    return (keyStringHex, tuple(cipherArray))
+    return (iv, keyStringHex, tuple(cipherArray))
 
 
 @click.command()
@@ -48,16 +48,17 @@ def main(k, i, o):
     print('\x1b[0;30;42m', "Key file:\t", '\x1b[0m', k)
     print('\x1b[0;30;42m', "Input File:\t", '\x1b[0m', i)
     print('\x1b[0;30;42m', "Output File:\t", '\x1b[0m', o)
-    (keyStringHex, cipherArray) = readParameters(k, i)
+    (iv, keyStringHex, cipherArray) = readParameters(k, i)
     # -------------------- Generate an instance from CBCCipher class -------------------- #
     my_cbc_cipher = Cipher_CBC.CBCCipher(
         keyStringHex, bytes)
-    my_cbc_cipher.setIV('66f5bdb70010a4c69e8f0227ff6ec318')
+    my_cbc_cipher.setIV(iv)
     # -------------------- Output Results -------------------- #
     decrypt_msg_array = my_cbc_cipher.decrypt(cipherArray)
+    # print(decrypt_msg_array)
     final_plain_text = my_cbc_cipher.unpadded(decrypt_msg_array)
+    # print(repr(final_plain_text))
     print('\x1b[0;30;42m', "Plain text is:\t", '\x1b[0m')
-    print(final_plain_text)
     with open(o, 'w') as outputFile:
         outputFile.write(final_plain_text)
     print('\x1b[1;37;44m', "\t\t\tDecryption Finished!\t\t\t")
