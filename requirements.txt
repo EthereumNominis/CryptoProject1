@@ -1,0 +1,12 @@
+numpy==1.15.1
+click==6.7
+crypto==1.4.1
+cryptography==2.3.1
+pycrypto==2.6.1
+pycryptodome==3.5.1
+scrypt==0.8.0
+asn1crypto==0.24.0
+
+
+
+
