@@ -49,29 +49,62 @@ DONT USE CBCenc.py, this file is old. Delete it if you want. Use Part1_encryptio
 
 
 
-# `cbc-enc.py`
+# CBC-MAC
 
-
-
-
-
-
-
-
-
-```Python
-python3 cbc-enc.py  -k temp/keyFile2 -i dataFiles/plain1.txt -o dataFiles/c_p1
-Applying CBC Cipher (Encryption)......
-Key file:        temp/keyFile2
-Input File:      dataFiles/plain1.txt
-Output File:     dataFiles/c_p1
- Successfully loaded key (Hex)    '000102030405060708090a0b0c0d0e0ff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff'
- Successfully loaded plain text file      "A good old man, sir; he will be talking: as they\nsay, when the age is in, the wit is out: God help\nus! it is a world to see. Well said, i' faith,\nneighbour Verges: well, God's a good man; an two men\nride of a horse, one must ride behind. An honest\nsoul, i' faith, sir; by my troth he is, as ever\nbroke bread; but God is to be worshipped; all men\nare not alike; alas, good neighbour!"
- IV is                    f308fc428b8b8bf0c9b9b9dc4fbe5ed1
- Cipher->
- b2ad8fd84785882d1ce76bef3943ef76
-.....
+```bash
+python3 cbcmac-tag.py -k temp/keyFile2 -m dataFiles/file20Kb.txt -t dataFiles/tag2
+Key file:	 temp/keyFile2
+Message file:	 dataFiles/file20Kb.txt
+Tag file:	 dataFiles/tag2
+ Successfully loaded key (Hex)	  '000102030405060708090a0b0c0d0e0ff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff'
+ Successfully loaded plain text file
+ Successfully generated tag for the message	  28cdddb038b86d46301febbc412a72f3
 ```
+
+```bash
+python3 cbcmac-validate.py -k temp/keyFile2 -m dataFiles/file200.txt -t dataFiles/tag2
+Key file:	 temp/keyFile2
+Message file:	 dataFiles/file200.txt
+Tag file:	 dataFiles/tag2
+ Successfully loaded key (Hex)	  '000102030405060708090a0b0c0d0e0ff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff'
+ Successfully loaded message file
+ Successfully loaded tag (Hex)	  28cdddb038b86d46301febbc412a72f3
+
+
+
+			 ----------------------------------------
+
+
+			  FALSE tag for the input message!
+
+
+			 ----------------------------------------
+```
+
+
+```bash
+python3 cbcmac-validate.py -k temp/keyFile2 -m dataFiles/file20Kb.txt -t dataFiles/tag2
+Key file:	 temp/keyFile2
+Message file:	 dataFiles/file20Kb.txt
+Tag file:	 dataFiles/tag2
+ Successfully loaded key (Hex)	  '000102030405060708090a0b0c0d0e0ff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff'
+ Successfully loaded message file
+ Successfully loaded tag (Hex)	  28cdddb038b86d46301febbc412a72f3
+
+
+
+			 ----------------------------------------
+
+
+			  TRUR tag for the input message!
+
+
+			 ----------------------------------------
+```
+
+
+
+
 
 
 

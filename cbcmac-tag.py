@@ -32,7 +32,7 @@ def main(k, m, t):
     if my_cbctag != None:
         with open(t, 'wb') as tagFile:
             tagFile.write(my_cbctag.TAG)
-            print('\x1b[1;33;45m', "Successfully generated tag for the message\t", '\x1b[0m')
+            print('\x1b[1;33;45m', "Successfully generated tag for the message\t", '\x1b[0m', my_cbctag.TAG.hex())
     else:
         print('\x1b[1;33;45m', "Failed generating tag for the message\t", '\x1b[0m')
     # - END -
