@@ -16,24 +16,10 @@ DONT USE CBCenc.py, this file is old. Delete it if you want. Use Part1_encryptio
 ├── cbc-enc.py        {# Question 1}
 ├── ctr-dec.py        {# Question 1}
 ├── ctr-enc.py        {# Question 1}
+├── cbcmac-tag.py        {# Question 2}
+├── cbcmac-validate.py        {# Question 2}
 ├── dataFiles
-│   ├── ctrO1
-│   ├── ctrO2
-│   ├── ffFF
-│   ├── k2c
-│   ├── l2.txt
-│   ├── l3.txt
-│   ├── l4.txt
-│   ├── longPlainText.txt
-│   ├── lyy
-│   ├── myo
-│   ├── myy
-│   ├── nnnnnk2cplain.txt
-│   ├── out
-│   ├── plain1.txt
-│   ├── plain2byENC.txt
-│   ├── plainFULL.txt
-│   └── plainFULLNULL.txt
+│   ├── .......
 ├── requirements.txt
 └── temp
     ├── keyFile1
@@ -44,6 +30,27 @@ DONT USE CBCenc.py, this file is old. Delete it if you want. Use Part1_encryptio
 ```
 
 
+
+
+## CBC
+
+```bash
+python3 cbc-enc.py -k temp/keyFile2 -i dataFiles/file200.txt -o dataFiles/ll_1
+```
+
+```bash
+python3 cbc-dec.py -k temp/keyFile2 -i dataFiles/ll_1 -o dataFiles/new_ll_2
+```
+
+## CTR
+
+```bash
+python3 ctr-enc.py -k temp/keyFile1 -i dataFiles/file20Kb.txt -o dataFiles/nn_1
+```
+
+```bash
+python3 ctr-dec.py -k temp/keyFile1 -i dataFiles/nn_1 -o dataFiles/new_nn_2
+```
 
 
 
@@ -101,12 +108,3 @@ Tag file:	 dataFiles/tag2
 
 			 ----------------------------------------
 ```
-
-
-
-
-
-
-
-
-
